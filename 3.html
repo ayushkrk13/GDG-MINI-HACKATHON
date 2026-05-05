@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamEdge AI — Last Minute Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f2eb;
+  --bg2: #edeae1;
+  --surface: #ffffff;
+  --border: #d8d3c8;
+  --border2: #c5bfb2;
+  --ink: #1a1814;
+  --ink2: #4a4640;
+  --ink3: #8a857d;
+  --red: #c94040;
+  --red-bg: #fdf0f0;
+  --green: #2d7a4f;
+  --green-bg: #f0faf4;
+  --amber: #b85c00;
+  --amber-bg: #fef8f0;
+  --blue: #1e5fa8;
+  --blue-bg: #f0f5fd;
+  --purple: #6b3fa0;
+  --purple-bg: #f7f3fd;
+  --heading: 'Bricolage Grotesque', sans-serif;
+  --body: 'Instrument Sans', sans-serif;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+}
+ 
+/* ─── GRAIN OVERLAY ─── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.5;
+}
+ 
+/* ─── TOP BAR ─── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,242,235,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:58px;
+}
+.logo{
+  font-family:var(--heading);font-weight:800;font-size:1.25rem;
+  letter-spacing:-0.04em;color:var(--ink);
+}
+.logo sup{
+  font-size:0.55rem;font-weight:500;color:var(--red);
+  vertical-align:super;letter-spacing:0.04em;font-family:var(--body);
+}
+.topbar-nav{display:flex;gap:0.25rem;}
+.topbar-nav a{
+  font-size:0.78rem;font-weight:500;color:var(--ink2);
+  padding:6px 12px;border-radius:6px;cursor:pointer;
+  text-decoration:none;transition:background 0.15s,color 0.15s;
+}
+.topbar-nav a:hover{background:var(--border);color:var(--ink);}
+.topbar-nav a.active{background:var(--ink);color:#fff;}
+ 
+/* ─── HERO ─── */
+.hero{
+  padding:4.5rem 2rem 2rem;
+  max-width:780px;margin:0 auto;text-align:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.72rem;font-weight:600;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--red);
+  background:var(--red-bg);border:1px solid #f0c0c0;
+  padding:4px 12px;border-radius:20px;margin-bottom:1.5rem;
+}
+.hero h1{
+  font-family:var(--heading);font-weight:800;
+  font-size:clamp(2.4rem,6vw,4rem);
+  letter-spacing:-0.04em;line-height:1.05;
+  color:var(--ink);margin-bottom:1.2rem;
+}
+.hero h1 .hi{
+  position:relative;display:inline-block;
+  background:var(--ink);color:var(--bg);
+  padding:0 10px;border-radius:6px;
+  transform:rotate(-1deg);display:inline-block;
+}
+.hero-sub{
+  font-size:1rem;color:var(--ink2);max-width:520px;margin:0 auto 2rem;
+  font-style:italic;
+}
+ 
+/* ─── TOPIC SELECTOR ─── */
+.topic-bar{
+  background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:14px;padding:1.25rem 1.5rem;
+  box-shadow:var(--shadow-lg);
+  max-width:700px;margin:0 auto 3.5rem;
+}
+.topic-bar label{
+  font-size:0.72rem;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:0.6rem;
+}
+.topic-row{display:flex;gap:0.75rem;align-items:center;}
+.topic-row input{
+  flex:1;border:1.5px solid var(--border);
+  background:var(--bg);border-radius:8px;
+  padding:0.7rem 1rem;font-family:var(--body);font-size:0.95rem;
+  color:var(--ink);outline:none;transition:border-color 0.2s;
+}
+.topic-row input:focus{border-color:var(--ink);}
+.topic-row input::placeholder{color:var(--ink3);}
+.btn-primary{
+  font-family:var(--heading);font-weight:700;font-size:0.85rem;
+  letter-spacing:-0.01em;padding:0.72rem 1.4rem;
+  background:var(--ink);color:var(--bg);
+  border:none;border-radius:8px;cursor:pointer;
+  white-space:nowrap;transition:opacity 0.15s,transform 0.1s;
+}
+.btn-primary:hover{opacity:0.85;}
+.btn-primary:active{transform:scale(0.98);}
+.btn-primary:disabled{opacity:0.4;cursor:not-allowed;}
+.topic-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.9rem;}
+.chip{
+  font-size:0.75rem;padding:4px 11px;border-radius:20px;
+  border:1px solid var(--border2);background:var(--bg2);
+  color:var(--ink2);cursor:pointer;transition:all 0.15s;
+}
+.chip:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+ 
+/* ─── SECTION LAYOUT ─── */
+.sections-wrap{max-width:1120px;margin:0 auto;padding:0 1.5rem 5rem;}
+.section-block{
+  margin-bottom:2.5rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;user-select:none;
+  transition:background 0.15s;
+}
+.section-head:hover{background:var(--bg);}
+.section-head-left{display:flex;align-items:center;gap:0.75rem;}
+.section-icon{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.section-title{
+  font-family:var(--heading);font-weight:700;font-size:1rem;
+  letter-spacing:-0.02em;color:var(--ink);
+}
+.section-sub{font-size:0.78rem;color:var(--ink3);margin-top:1px;}
+.section-badge{
+  font-size:0.68rem;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;padding:3px 9px;border-radius:20px;
+}
+.chevron{
+  font-size:0.8rem;color:var(--ink3);
+  transition:transform 0.25s;margin-left:0.5rem;
+}
+.chevron.open{transform:rotate(180deg);}
+.section-body{display:none;padding:1.5rem;}
+.section-body.open{display:block;}
+ 
+/* ─── AI DOUBT SOLVER ─── */
+.doubt-input-row{display:flex;gap:0.75rem;margin-bottom:1rem;}
+.doubt-input-row textarea{
+  flex:1;border:1.5px solid var(--border);border-radius:8px;
+  padding:0.75rem 1rem;font-family:var(--body);font-size:0.9rem;
+  color:var(--ink);background:var(--bg);resize:none;min-height:80px;
+  outline:none;transition:border-color 0.2s;
+}
+.doubt-input-row textarea:focus{border-color:var(--ink);}
+.doubt-answer{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:1.1rem 1.2rem;min-height:60px;
+  font-size:0.9rem;line-height:1.75;color:var(--ink);
+  white-space:pre-wrap;display:none;
+}
+.doubt-answer.visible{display:block;}
+ 
+/* ─── QUICK TEST ─── */
+.test-config{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;align-items:flex-end;}
+.test-config .field{display:flex;flex-direction:column;gap:0.3rem;flex:1;min-width:140px;}
+.test-config label{font-size:0.72rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink3);}
+.test-config select, .test-config input[type=number]{
+  border:1.5px solid var(--border);background:var(--bg);
+  border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);
+  font-size:0.88rem;color:var(--ink);outline:none;transition:border-color 0.2s;
+}
+.test-config select:focus,.test-config input:focus{border-color:var(--ink);}
+.quiz-wrap{display:none;}
+.quiz-wrap.visible{display:block;}
+.q-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:1.25rem;margin-bottom:1rem;
+}
+.q-num{font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.5rem;}
+.q-text{font-size:0.95rem;font-weight:500;margin-bottom:1rem;line-height:1.55;}
+.q-opts{display:flex;flex-direction:column;gap:0.5rem;}
+.q-opt{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:7px;padding:0.6rem 1rem;font-size:0.88rem;
+  text-align:left;color:var(--ink);cursor:pointer;transition:all 0.15s;
+}
+.q-opt:hover:not(:disabled){border-color:var(--ink);background:var(--bg);}
+.q-opt.correct{border-color:var(--green)!important;background:var(--green-bg)!important;color:var(--green);}
+.q-opt.wrong{border-color:var(--red)!important;background:var(--red-bg)!important;color:var(--red);}
+.q-expl{
+  margin-top:0.75rem;padding:0.7rem 0.9rem;
+  background:var(--amber-bg);border-left:3px solid var(--amber);
+  border-radius:0 6px 6px 0;font-size:0.83rem;color:var(--amber);
+  display:none;line-height:1.55;
+}
+.test-result{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;padding:2rem;text-align:center;display:none;
+}
+.test-result.visible{display:block;}
+.result-score{font-family:var(--heading);font-size:3.5rem;font-weight:800;letter-spacing:-0.04em;color:var(--ink);}
+.result-grade{font-size:0.9rem;color:var(--ink2);margin-top:0.3rem;}
+ 
+/* ─── AI IMPORTANT TOPICS ─── */
+.imp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+.imp-card{
+  border-radius:10px;padding:1.1rem 1.2rem;
+  border:1px solid;
+}
+.imp-card.high{background:var(--red-bg);border-color:#f0c0c0;}
+.imp-card.med{background:var(--amber-bg);border-color:#f5d8aa;}
+.imp-card.low{background:var(--green-bg);border-color:#a8dcbc;}
+.imp-card-tag{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;}
+.imp-card.high .imp-card-tag{color:var(--red);}
+.imp-card.med .imp-card-tag{color:var(--amber);}
+.imp-card.low .imp-card-tag{color:var(--green);}
+.imp-card-title{font-family:var(--heading);font-size:0.92rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:0.35rem;}
+.imp-card-desc{font-size:0.8rem;color:var(--ink2);line-height:1.5;}
+.imp-card-prob{font-size:0.72rem;font-weight:600;margin-top:0.6rem;}
+.imp-card.high .imp-card-prob{color:var(--red);}
+.imp-card.med .imp-card-prob{color:var(--amber);}
+.imp-card.low .imp-card-prob{color:var(--green);}
+ 
+/* ─── RESOURCES TABS ─── */
+.res-tabs{display:flex;gap:0.35rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.res-tab{
+  font-size:0.78rem;font-weight:600;padding:7px 16px;border-radius:7px;
+  border:1.5px solid var(--border);background:var(--bg);
+  color:var(--ink2);cursor:pointer;transition:all 0.15s;
+}
+.res-tab:hover{border-color:var(--ink2);}
+.res-tab.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.res-panel{display:none;}
+.res-panel.active{display:block;}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.85rem;}
+.res-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;cursor:pointer;
+  transition:box-shadow 0.2s,transform 0.15s;
+}
+.res-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);}
+.res-thumb{
+  height:110px;display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;border-bottom:1px solid var(--border);
+}
+.res-card-body{padding:0.85rem;}
+.res-card-title{font-size:0.85rem;font-weight:600;margin-bottom:0.25rem;color:var(--ink);line-height:1.35;}
+.res-card-meta{font-size:0.72rem;color:var(--ink3);}
+.res-card-tag{
+  display:inline-block;font-size:0.65rem;font-weight:700;
+  letter-spacing:0.07em;text-transform:uppercase;
+  padding:2px 7px;border-radius:4px;margin-bottom:0.4rem;
+}
+ 
+/* ─── SMART SUMMARY ─── */
+.summary-output{
+  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:1.25rem;font-size:0.92rem;line-height:1.8;
+  white-space:pre-wrap;min-height:80px;display:none;
+}
+.summary-output.visible{display:block;}
+.summary-opts{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.sum-btn{
+  font-size:0.78rem;font-weight:600;padding:6px 14px;
+  border-radius:7px;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--ink2);cursor:pointer;transition:all 0.15s;
+}
+.sum-btn:hover{border-color:var(--ink);color:var(--ink);}
+.sum-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+ 
+/* ─── FLASHCARDS ─── */
+.fc-wrap{perspective:1000px;}
+.fc-card{
+  width:100%;max-width:500px;margin:0 auto;
+  height:220px;position:relative;cursor:pointer;
+}
+.fc-inner{
+  width:100%;height:100%;
+  transform-style:preserve-3d;transition:transform 0.5s;
+  position:relative;
+}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{
+  position:absolute;inset:0;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:2rem;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;backface-visibility:hidden;
+}
+.fc-back{transform:rotateY(180deg);background:var(--ink);color:var(--bg);}
+.fc-face-label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;opacity:0.5;}
+.fc-text{font-size:1rem;line-height:1.55;font-weight:500;}
+.fc-controls{display:flex;gap:0.75rem;justify-content:center;margin-top:1.25rem;}
+.fc-btn{
+  font-size:0.78rem;font-weight:600;padding:7px 18px;
+  border-radius:7px;border:1.5px solid var(--border);
+  background:var(--bg);color:var(--ink);cursor:pointer;transition:all 0.15s;
+}
+.fc-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
+.fc-progress{
+  text-align:center;font-size:0.78rem;color:var(--ink3);margin-top:0.75rem;
+}
+ 
+/* ─── LOADING STATES ─── */
+.loading-row{display:flex;align-items:center;gap:8px;color:var(--ink3);font-size:0.83rem;padding:0.75rem 0;display:none;}
+.loading-row.visible{display:flex;}
+.ld{width:6px;height:6px;background:var(--ink3);border-radius:50%;animation:ld 1s ease infinite;}
+.ld:nth-child(2){animation-delay:0.15s;}
+.ld:nth-child(3){animation-delay:0.3s;}
+@keyframes ld{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-5px);opacity:1}}
+ 
+/* ─── CURSOR ─── */
+.cursor{display:inline-block;width:2px;height:1.1em;background:var(--ink);vertical-align:text-bottom;animation:blink 0.7s step-end infinite;margin-left:1px;}
+@keyframes blink{50%{opacity:0}}
+ 
+/* ─── FORMATTED TEXT ─── */
+.prose h2{font-family:var(--heading);font-size:0.95rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin:1rem 0 0.4rem;}
+.prose h3{font-size:0.85rem;font-weight:600;color:var(--ink2);margin:0.75rem 0 0.3rem;}
+.prose strong{font-weight:600;color:var(--ink);}
+.prose ul,.prose ol{margin-left:1.3rem;}
+.prose li{margin:0.2rem 0;}
+.prose hr{border:none;border-top:1px solid var(--border);margin:0.8rem 0;}
+ 
+/* ─── FOOTER ─── */
+footer{
+  text-align:center;padding:2rem;
+  border-top:1px solid var(--border);
+  font-size:0.75rem;color:var(--ink3);
+}
+footer strong{color:var(--red);}
+ 
+/* ─── RESPONSIVE ─── */
+@media(max-width:600px){
+  .topbar-nav a{display:none;}
+  .topbar-nav a:last-child{display:block;}
+  .hero h1{font-size:2rem;}
+  .topic-row{flex-direction:column;}
+  .btn-primary{width:100%;}
+  .test-config{flex-direction:column;}
+}
+ 
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.section-block{animation:fadeUp 0.4s ease both;}
+.section-block:nth-child(1){animation-delay:0.05s;}
+.section-block:nth-child(2){animation-delay:0.1s;}
+.section-block:nth-child(3){animation-delay:0.15s;}
+.section-block:nth-child(4){animation-delay:0.2s;}
+.section-block:nth-child(5){animation-delay:0.25s;}
+.section-block:nth-child(6){animation-delay:0.3s;}
+</style>
+</head>
+<body>
+ 
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="logo">ExamEdge<sup>AI</sup></div>
+  <div class="topbar-nav">
+    <a onclick="scrollTo('#doubt')">Doubts</a>
+    <a onclick="scrollTo('#test')">Quick Test</a>
+    <a onclick="scrollTo('#important')">Hot Topics</a>
+    <a onclick="scrollTo('#resources')">Resources</a>
+    <a onclick="scrollTo('#summary')">Summary</a>
+    <a onclick="scrollTo('#flashcards')">Flashcards</a>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">⚡ Exam is tomorrow. You got this.</div>
+  <h1>Your AI-powered<br><span class="hi">last-minute</span> tutor</h1>
+  <p class="hero-sub">Solve doubts, take smart quizzes, find critical topics, and grab revision resources — all in one place.</p>
+</div>
+ 
+<!-- TOPIC BAR -->
+<div class="topic-bar" style="max-width:700px;margin:0 auto 3rem;">
+  <label>Enter your exam topic or subject</label>
+  <div class="topic-row">
+    <input type="text" id="globalTopic" placeholder="e.g. Photosynthesis, French Revolution, Thermodynamics, Algebra..." />
+    <button class="btn-primary" onclick="setGlobalTopic()">Set Topic →</button>
+  </div>
+  <div class="topic-chips">
+    <span class="chip" onclick="fillTopic('Photosynthesis')">Photosynthesis</span>
+    <span class="chip" onclick="fillTopic('World War II')">World War II</span>
+    <span class="chip" onclick="fillTopic('Quadratic Equations')">Quadratic Equations</span>
+    <span class="chip" onclick="fillTopic('Newton\'s Laws')">Newton's Laws</span>
+    <span class="chip" onclick="fillTopic('Cell Biology')">Cell Biology</span>
+    <span class="chip" onclick="fillTopic('Organic Chemistry')">Organic Chemistry</span>
+    <span class="chip" onclick="fillTopic('Indian History')">Indian History</span>
+    <span class="chip" onclick="fillTopic('Macroeconomics')">Macroeconomics</span>
+  </div>
+</div>
+ 
+<!-- ─── SECTIONS ─── -->
+<div class="sections-wrap">
+ 
+<!-- 1. AI DOUBT SOLVER -->
+<div class="section-block" id="doubt">
+  <div class="section-head" onclick="toggleSection('doubt-body','doubt-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fff0f0;">🤔</div>
+      <div>
+        <div class="section-title">AI Doubt Solver</div>
+        <div class="section-sub">Ask anything — get instant, exam-focused explanations</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--red-bg);color:var(--red);border:1px solid #f0c0c0;">Live AI</span>
+      <span class="chevron open" id="doubt-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open prose" id="doubt-body">
+    <p style="font-size:0.83rem;color:var(--ink3);margin-bottom:1rem;">Type your doubt or question below. The AI will explain it clearly and concisely, exam-style.</p>
+    <div class="doubt-input-row">
+      <textarea id="doubtQ" placeholder="e.g. What is the difference between mitosis and meiosis? Why does ice float on water? Explain derivatives simply..."></textarea>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+      <button class="btn-primary" onclick="solveDoubt()" id="doubtBtn">Solve My Doubt →</button>
+      <button class="sum-btn" onclick="setDoubt('Explain this concept step by step')">Step-by-step</button>
+      <button class="sum-btn" onclick="setDoubt('Give me a real-life example')">Real-life example</button>
+      <button class="sum-btn" onclick="setDoubt('What is the exam trick to remember this?')">Exam trick</button>
+    </div>
+    <div class="loading-row" id="doubtLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Thinking...</span></div>
+    <div class="doubt-answer prose" id="doubtAnswer"></div>
+  </div>
+</div>
+ 
+<!-- 2. QUICK TEST -->
+<div class="section-block" id="test">
+  <div class="section-head" onclick="toggleSection('test-body','test-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f0f5fd;">📝</div>
+      <div>
+        <div class="section-title">Quick Test</div>
+        <div class="section-sub">AI-generated MCQ test on your chosen topic</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid #b8d0f4;">Adaptive</span>
+      <span class="chevron open" id="test-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="test-body">
+    <div class="test-config">
+      <div class="field">
+        <label>Topic</label>
+        <input type="text" id="testTopic" placeholder="e.g. Algebra" style="border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      </div>
+      <div class="field">
+        <label>Difficulty</label>
+        <select id="testDiff">
+          <option value="easy">Easy — Basics only</option>
+          <option value="medium" selected>Medium — Exam level</option>
+          <option value="hard">Hard — Advanced</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Questions</label>
+        <input type="number" id="testCount" value="5" min="3" max="10" />
+      </div>
+      <button class="btn-primary" onclick="generateTest()" id="testBtn" style="align-self:flex-end;">Generate Test →</button>
+    </div>
+    <div class="loading-row" id="testLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Generating your test...</span></div>
+    <div class="quiz-wrap" id="quizWrap"></div>
+    <div class="test-result" id="testResult">
+      <div class="result-score" id="resultScore">—</div>
+      <div class="result-grade" id="resultGrade"></div>
+      <button class="btn-primary" onclick="resetTest()" style="margin-top:1.25rem;">Try Again</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- 3. AI IMPORTANT TOPICS & QUESTIONS -->
+<div class="section-block" id="important">
+  <div class="section-head" onclick="toggleSection('imp-body','imp-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fef8f0;">🎯</div>
+      <div>
+        <div class="section-title">AI-Analysed Important Topics</div>
+        <div class="section-sub">High-probability exam questions and critical topics — ranked by importance</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--amber-bg);color:var(--amber);border:1px solid #f5d8aa;">Smart Ranking</span>
+      <span class="chevron open" id="imp-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="imp-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="impTopic" placeholder="Enter topic to analyse..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="analyseImportant()" id="impBtn">Analyse →</button>
+    </div>
+    <div class="loading-row" id="impLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Analysing exam patterns...</span></div>
+    <div class="imp-grid" id="impGrid"></div>
+    <div id="impQuestions" class="prose" style="margin-top:1.25rem;font-size:0.9rem;"></div>
+  </div>
+</div>
+ 
+<!-- 4. REVISION RESOURCES (Videos, PPTs, Notes) -->
+<div class="section-block" id="resources">
+  <div class="section-head" onclick="toggleSection('res-body','res-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f7f3fd;">📚</div>
+      <div>
+        <div class="section-title">Revision Resources</div>
+        <div class="section-sub">Summary videos, PPTs, and notes to revise quickly</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid #d0b8f4;">Videos · PPTs · Notes</span>
+      <span class="chevron open" id="res-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="res-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="resTopic" placeholder="Search topic for resources..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="findResources()" id="resBtn">Find Resources →</button>
+    </div>
+    <div class="loading-row" id="resLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Finding best resources...</span></div>
+    <div id="resContent" style="display:none;">
+      <div class="res-tabs">
+        <button class="res-tab active" onclick="switchResTab('videos',this)">▶ Summary Videos</button>
+        <button class="res-tab" onclick="switchResTab('ppts',this)">📊 PPT Slides</button>
+        <button class="res-tab" onclick="switchResTab('notes',this)">📄 Quick Notes</button>
+        <button class="res-tab" onclick="switchResTab('links',this)">🔗 Study Links</button>
+      </div>
+      <div class="res-panel active" id="res-videos"></div>
+      <div class="res-panel" id="res-ppts"></div>
+      <div class="res-panel" id="res-notes"></div>
+      <div class="res-panel" id="res-links"></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- 5. SMART SUMMARY -->
+<div class="section-block" id="summary">
+  <div class="section-head" onclick="toggleSection('sum-body','sum-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f0faf4;">✍️</div>
+      <div>
+        <div class="section-title">Smart Summary Generator</div>
+        <div class="section-sub">Instant revision summaries: brief, detailed, or visual outline</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--green-bg);color:var(--green);border:1px solid #a8dcbc;">Auto-Gen</span>
+      <span class="chevron open" id="sum-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="sum-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="sumTopic" placeholder="Enter topic for summary..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+    </div>
+    <div class="summary-opts">
+      <button class="sum-btn active" data-sumtype="brief" onclick="setSumType(this)">⚡ 60-Second Brief</button>
+      <button class="sum-btn" data-sumtype="detailed" onclick="setSumType(this)">📖 Detailed Summary</button>
+      <button class="sum-btn" data-sumtype="outline" onclick="setSumType(this)">🗂 Chapter Outline</button>
+      <button class="sum-btn" data-sumtype="mindmap" onclick="setSumType(this)">🧠 Mind Map Text</button>
+      <button class="sum-btn" data-sumtype="compare" onclick="setSumType(this)">⚖ Compare & Contrast</button>
+    </div>
+    <button class="btn-primary" onclick="generateSummary()" id="sumBtn" style="margin-bottom:1rem;">Generate Summary →</button>
+    <div class="loading-row" id="sumLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Writing summary...</span></div>
+    <div class="summary-output prose" id="sumOutput"></div>
+  </div>
+</div>
+ 
+<!-- 6. FLASHCARDS -->
+<div class="section-block" id="flashcards">
+  <div class="section-head" onclick="toggleSection('fc-body','fc-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fff0f0;">🃏</div>
+      <div>
+        <div class="section-title">AI Flashcards</div>
+        <div class="section-sub">Flip-card revision — tap to reveal answers</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--red-bg);color:var(--red);border:1px solid #f0c0c0;">Interactive</span>
+      <span class="chevron open" id="fc-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="fc-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="fcTopic" placeholder="Enter topic for flashcards..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="generateFlashcards()" id="fcBtn">Make Flashcards →</button>
+    </div>
+    <div class="loading-row" id="fcLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Creating flashcards...</span></div>
+    <div id="fcWrap" style="display:none;">
+      <div class="fc-wrap">
+        <div class="fc-card" id="fcCard" onclick="flipCard()">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <div class="fc-face-label">Question</div>
+              <div class="fc-text" id="fcFront">—</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-face-label" style="color:rgba(255,255,255,0.4);">Answer</div>
+              <div class="fc-text" id="fcBack">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="fc-btn" onclick="prevCard()">← Prev</button>
+        <button class="fc-btn" onclick="flipCard()">Flip Card</button>
+        <button class="fc-btn" onclick="nextCard()">Next →</button>
+      </div>
+      <div class="fc-progress" id="fcProgress">Card 1 of 8</div>
+    </div>
+  </div>
+</div>
+ 
+</div><!-- end sections-wrap -->
+ 
+<footer>
+  Built with <strong>❤ Claude AI</strong> by Anthropic · ExamEdge AI · Good luck on your exam!
+</footer>
+ 
+<script>
+// ─── GLOBAL STATE ───
+let globalTopic = '';
+let currentSumType = 'brief';
+let quizQuestions = [];
+let quizScores = [];
+let flashcards = [];
+let fcIndex = 0;
+let quizSubmitted = false;
+ 
+// ─── HELPERS ───
+function scrollTo(id){document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
+function fillTopic(t){document.getElementById('globalTopic').value=t;}
+function setGlobalTopic(){
+  const t=document.getElementById('globalTopic').value.trim();
+  if(!t){document.getElementById('globalTopic').style.borderColor='var(--red)';setTimeout(()=>{document.getElementById('globalTopic').style.borderColor='';},1500);return;}
+  globalTopic=t;
+  document.getElementById('testTopic').value=t;
+  document.getElementById('impTopic').value=t;
+  document.getElementById('resTopic').value=t;
+  document.getElementById('sumTopic').value=t;
+  document.getElementById('fcTopic').value=t;
+  showToast(`Topic set: ${t}`);
+}
+function showToast(msg){
+  const d=document.createElement('div');
+  d.textContent=msg;
+  Object.assign(d.style,{position:'fixed',bottom:'2rem',right:'2rem',background:'var(--ink)',color:'var(--bg)',padding:'10px 18px',borderRadius:'8px',fontSize:'0.82rem',fontWeight:'600',zIndex:'9999',animation:'fadeUp 0.3s ease',boxShadow:'var(--shadow-lg)'});
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),2500);
+}
+function toggleSection(bodyId,chevId){
+  const b=document.getElementById(bodyId);
+  const c=document.getElementById(chevId);
+  b.classList.toggle('open');
+  c.classList.toggle('open');
+}
+function setDoubt(prefix){
+  const q=document.getElementById('doubtQ');
+  q.value=prefix+(globalTopic?` about ${globalTopic}`:'');
+  q.focus();
+}
+function setSumType(el){
+  document.querySelectorAll('.sum-btn[data-sumtype]').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  currentSumType=el.dataset.sumtype;
+}
+function switchResTab(tab, el){
+  document.querySelectorAll('.res-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.res-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('res-'+tab).classList.add('active');
+}
+function formatProse(text){
+  return text
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
+    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^[-•] (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>[\s\S]+?<\/li>)/g,m=>`<ul>${m}</ul>`)
+    .replace(/---/g,'<hr>')
+    .replace(/\n\n/g,'<br><br>')
+    .replace(/\n/g,'<br>');
+}
+ 
+// ─── API CALL ───
+async function callClaude(prompt, streamEl=null, loaderId=null){
+  if(loaderId) document.getElementById(loaderId).classList.add('visible');
+  try{
+    const body={
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      messages:[{role:'user',content:prompt}]
+    };
+    if(streamEl){
+      body.stream=true;
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+      const reader=res.body.getReader();
+      const dec=new TextDecoder();
+      let full='';
+      streamEl.innerHTML='<span class="cursor"></span>';
+      streamEl.style.display='block';streamEl.classList.add('visible');
+      while(true){
+        const{done,value}=await reader.read();if(done)break;
+        for(const line of dec.decode(value).split('\n')){
+          if(line.startsWith('data: ')){
+            try{const d=JSON.parse(line.slice(6));if(d.delta?.text){full+=d.delta.text;streamEl.innerHTML=formatProse(full)+'<span class="cursor"></span>';}}catch(e){}
+          }
+        }
+      }
+      streamEl.innerHTML=formatProse(full);
+      if(loaderId) document.getElementById(loaderId).classList.remove('visible');
+      return full;
+    } else {
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+      const data=await res.json();
+      if(loaderId) document.getElementById(loaderId).classList.remove('visible');
+      return data.content?.map(b=>b.text||'').join('')||'';
+    }
+  }catch(e){
+    if(loaderId) document.getElementById(loaderId).classList.remove('visible');
+    throw e;
+  }
+}
+ 
+// ─── 1. DOUBT SOLVER ───
+async function solveDoubt(){
+  const q=document.getElementById('doubtQ').value.trim();
+  if(!q){document.getElementById('doubtQ').style.borderColor='var(--red)';setTimeout(()=>{document.getElementById('doubtQ').style.borderColor='';},1500);return;}
+  const topic=globalTopic?`The student is studying: ${globalTopic}. `:'';
+  const prompt=`${topic}A student has this doubt: "${q}"\n\nExplain clearly and concisely in an exam-friendly way. Use:\n- Simple language\n- Step-by-step if needed\n- A real-world analogy if helpful\n- End with a 1-line exam tip\n\nKeep it under 300 words. Use **bold** for key terms and ## for section headers.`;
+  document.getElementById('doubtBtn').disabled=true;
+  const out=document.getElementById('doubtAnswer');
+  out.classList.add('visible');
+  await callClaude(prompt,out,'doubtLoading');
+  document.getElementById('doubtBtn').disabled=false;
+}
+ 
+// ─── 2. QUICK TEST ───
+let testData=[];let testAnswered=0;let testScore=0;
+async function generateTest(){
+  const topic=document.getElementById('testTopic').value.trim()||globalTopic;
+  if(!topic){showToast('Please enter a topic!');return;}
+  const diff=document.getElementById('testDiff').value;
+  const count=parseInt(document.getElementById('testCount').value)||5;
+  document.getElementById('testBtn').disabled=true;
+  document.getElementById('quizWrap').classList.remove('visible');
+  document.getElementById('testResult').classList.remove('visible');
+  testAnswered=0;testScore=0;testData=[];
+  const prompt=`Create a ${count}-question ${diff} difficulty multiple choice quiz on: "${topic}".\nRESPOND ONLY WITH VALID JSON. No markdown, no backticks, no extra text.\n{"questions":[{"q":"question","options":["A","B","C","D"],"answer":0,"explanation":"why correct"}]}\nanswer = 0-based index of correct option.`;
+  try{
+    const raw=await callClaude(prompt,null,'testLoading');
+    const clean=raw.replace(/```json|```/g,'').trim();
+    testData=JSON.parse(clean).questions||[];
+    renderTest();
+    document.getElementById('quizWrap').classList.add('visible');
+  }catch(e){showToast('Could not generate test. Try again.');}
+  document.getElementById('testBtn').disabled=false;
+}
+function renderTest(){
+  const wrap=document.getElementById('quizWrap');
+  wrap.innerHTML=testData.map((q,i)=>`
+    <div class="q-card" id="qcard${i}">
+      <div class="q-num">Question ${i+1} of ${testData.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-opts">
+        ${q.options.map((o,j)=>`<button class="q-opt" id="opt${i}_${j}" onclick="answerQ(${i},${j})">${String.fromCharCode(65+j)}. ${o}</button>`).join('')}
+      </div>
+      <div class="q-expl" id="expl${i}">💡 ${q.explanation}</div>
+    </div>`).join('');
+}
+function answerQ(qi,oi){
+  const q=testData[qi];
+  for(let j=0;j<q.options.length;j++){
+    const btn=document.getElementById(`opt${qi}_${j}`);
+    btn.disabled=true;
+    if(j===q.answer) btn.classList.add('correct');
+    else if(j===oi&&j!==q.answer) btn.classList.add('wrong');
+  }
+  document.getElementById(`expl${qi}`).style.display='block';
+  if(oi===q.answer) testScore++;
+  testAnswered++;
+  if(testAnswered===testData.length){
+    setTimeout(()=>{
+      const pct=Math.round((testScore/testData.length)*100);
+      document.getElementById('resultScore').textContent=`${testScore}/${testData.length}`;
+      const grades=['Needs more study 📚','Getting there 🙌','Good job 👍','Almost perfect 🔥','Brilliant! 🏆'];
+      const gi=pct<40?0:pct<60?1:pct<75?2:pct<90?3:4;
+      document.getElementById('resultGrade').textContent=`${pct}% correct — ${grades[gi]}`;
+      document.getElementById('testResult').classList.add('visible');
+    },600);
+  }
+}
+function resetTest(){document.getElementById('testResult').classList.remove('visible');document.getElementById('quizWrap').classList.remove('visible');}
+ 
+// ─── 3. IMPORTANT TOPICS ───
+async function analyseImportant(){
+  const topic=document.getElementById('impTopic').value.trim()||globalTopic;
+  if(!topic){showToast('Enter a topic to analyse!');return;}
+  document.getElementById('impBtn').disabled=true;
+  document.getElementById('impGrid').innerHTML='';
+  document.getElementById('impQuestions').innerHTML='';
+  const prompt=`Analyse the topic "${topic}" for exam importance. Respond ONLY in valid JSON:\n{"topics":[{"title":"topic name","description":"1-sentence why it matters","probability":"High/Medium/Low","priority":"high/med/low","tip":"1 exam tip"}],"likely_questions":["question1","question2","question3","question4","question5"]}\nInclude 6-8 topics total, mix of High/Medium/Low probability. likely_questions = 5 questions most likely to appear in exam.`;
+  try{
+    const raw=await callClaude(prompt,null,'impLoading');
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    renderImportant(parsed);
+  }catch(e){showToast('Analysis failed. Try again.');}
+  document.getElementById('impBtn').disabled=false;
+}
+function renderImportant(data){
+  const grid=document.getElementById('impGrid');
+  grid.innerHTML=(data.topics||[]).map(t=>`
+    <div class="imp-card ${t.priority}">
+      <div class="imp-card-tag">${t.probability} probability</div>
+      <div class="imp-card-title">${t.title}</div>
+      <div class="imp-card-desc">${t.description}</div>
+      <div class="imp-card-prob">💡 ${t.tip}</div>
+    </div>`).join('');
+  if(data.likely_questions?.length){
+    document.getElementById('impQuestions').innerHTML=`
+      <div style="margin-top:1.25rem;">
+        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.75rem;">🎯 Most Likely Exam Questions</div>
+        ${data.likely_questions.map((q,i)=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:0.7rem 1rem;margin-bottom:0.5rem;font-size:0.88rem;"><strong style="color:var(--ink3);font-size:0.75rem;">Q${i+1}</strong> ${q}</div>`).join('')}
+      </div>`;
+  }
+}
+ 
+// ─── 4. RESOURCES ───
+async function findResources(){
+  const topic=document.getElementById('resTopic').value.trim()||globalTopic;
+  if(!topic){showToast('Enter a topic!');return;}
+  document.getElementById('resBtn').disabled=true;
+  document.getElementById('resContent').style.display='none';
+  const prompt=`For the exam topic "${topic}", generate realistic study resource recommendations in JSON:\n{"videos":[{"title":"video title","channel":"channel name","duration":"X min","level":"Beginner/Intermediate","emoji":"🎬","color":"#f0f5fd","tag":"Summary Video"}],"ppts":[{"title":"ppt title","source":"website","slides":"XX slides","emoji":"📊","color":"#f7f3fd","tag":"PPT Slides"}],"notes":[{"title":"notes title","source":"source","pages":"X pages","emoji":"📄","color":"#f0faf4","tag":"Study Notes"}],"links":[{"title":"resource name","url":"https://...","description":"what it covers","emoji":"🔗"}]}\nProvide 4 items in each category. Make titles specific and realistic for the topic. For links use real educational sites like Khan Academy, BYJU's, Wikipedia, NCERT, Coursera, etc.`;
+  try{
+    const raw=await callClaude(prompt,null,'resLoading');
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    renderResources(parsed,topic);
+    document.getElementById('resContent').style.display='block';
+  }catch(e){showToast('Could not find resources. Try again.');}
+  document.getElementById('resBtn').disabled=false;
+}
+function renderResources(data,topic){
+  const videoHtml=data.videos?.map(v=>`
+    <div class="res-card" onclick="showToast('Search: ${v.title.replace(/'/g,"\\'")} on YouTube')">
+      <div class="res-thumb" style="background:${v.color||'#f0f5fd'}">${v.emoji||'🎬'}</div>
+      <div class="res-card-body">
+        <div class="res-card-tag" style="background:#f0f5fd;color:var(--blue);">${v.tag}</div>
+        <div class="res-card-title">${v.title}</div>
+        <div class="res-card-meta">${v.channel} · ${v.duration} · ${v.level}</div>
+      </div>
+    </div>`).join('')||'<p style="color:var(--ink3);font-size:0.85rem;">No videos found.</p>';
+ 
+  const pptHtml=data.ppts?.map(p=>`
+    <div class="res-card" onclick="showToast('Search: ${p.title.replace(/'/g,"\\'")} on SlideShare')">
+      <div class="res-thumb" style="background:${p.color||'#f7f3fd'}">${p.emoji||'📊'}</div>
+      <div class="res-card-body">
+        <div class="res-card-tag" style="background:#f7f3fd;color:var(--purple);">${p.tag}</div>
+        <div class="res-card-title">${p.title}</div>
+        <div class="res-card-meta">${p.source} · ${p.slides}</div>
+      </div>
+    </div>`).join('')||'';
+ 
+  const notesHtml=data.notes?.map(n=>`
+    <div class="res-card" onclick="showToast('Search: ${n.title.replace(/'/g,"\\'")}')">
+      <div class="res-thumb" style="background:${n.color||'#f0faf4'}">${n.emoji||'📄'}</div>
+      <div class="res-card-body">
+        <div class="res-card-tag" style="background:#f0faf4;color:var(--green);">${n.tag}</div>
+        <div class="res-card-title">${n.title}</div>
+        <div class="res-card-meta">${n.source} · ${n.pages}</div>
+      </div>
+    </div>`).join('')||'';
+ 
+  const linksHtml=data.links?.map(l=>`
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:0.9rem 1.1rem;margin-bottom:0.6rem;cursor:pointer;transition:box-shadow 0.15s;" onclick="openLink('${l.url}')" onmouseover="this.style.boxShadow='var(--shadow-lg)'" onmouseout="this.style.boxShadow='none'">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.25rem;">
+        <span style="font-size:1.1rem;">${l.emoji||'🔗'}</span>
+        <strong style="font-size:0.88rem;">${l.title}</strong>
+      </div>
+      <div style="font-size:0.78rem;color:var(--ink3);">${l.description}</div>
+      <div style="font-size:0.72rem;color:var(--blue);margin-top:0.3rem;">${l.url}</div>
+    </div>`).join('')||'';
+ 
+  document.getElementById('res-videos').innerHTML=`<div class="res-grid">${videoHtml}</div>`;
+  document.getElementById('res-ppts').innerHTML=`<div class="res-grid">${pptHtml}</div>`;
+  document.getElementById('res-notes').innerHTML=`<div class="res-grid">${notesHtml}</div>`;
+  document.getElementById('res-links').innerHTML=linksHtml;
+}
+function openLink(url){window.open(url,'_blank');}
+ 
+// ─── 5. SMART SUMMARY ───
+async function generateSummary(){
+  const topic=document.getElementById('sumTopic').value.trim()||globalTopic;
+  if(!topic){showToast('Enter a topic!');return;}
+  const types={
+    brief:`Write a 60-second revision brief for "${topic}". Cover only the most essential concepts, definitions, and 3 key facts. Bold key terms. Under 200 words.`,
+    detailed:`Write a detailed exam revision summary for "${topic}". Include: key concepts, important definitions, processes/mechanisms, examples, and exam tips. Use ## headings. Bold key terms. Under 500 words.`,
+    outline:`Create a structured chapter outline for "${topic}". Organize as numbered main sections with sub-points. Show hierarchy clearly. Include what a student must know at each level.`,
+    mindmap:`Create a text-based mind map for "${topic}". Use indentation to show hierarchy:\n[MAIN TOPIC]\n  → Branch 1\n    • Sub-point\n    • Sub-point\n  → Branch 2\nCover all key areas.`,
+    compare:`Create a compare & contrast analysis for the key elements/concepts in "${topic}". Use ## for each comparison. Show similarities and differences clearly. Great for exam answers.`
+  };
+  document.getElementById('sumBtn').disabled=true;
+  const out=document.getElementById('sumOutput');
+  out.classList.remove('visible');
+  await callClaude(types[currentSumType],out,'sumLoading');
+  document.getElementById('sumBtn').disabled=false;
+}
+ 
+// ─── 6. FLASHCARDS ───
+let fcData=[];let fcFlipped=false;
+async function generateFlashcards(){
+  const topic=document.getElementById('fcTopic').value.trim()||globalTopic;
+  if(!topic){showToast('Enter a topic!');return;}
+  document.getElementById('fcBtn').disabled=true;
+  document.getElementById('fcWrap').style.display='none';
+  const prompt=`Create exactly 10 exam flashcards for "${topic}". Respond ONLY in valid JSON:\n{"cards":[{"front":"short question or term","back":"clear answer or definition"}]}\nMake questions exam-style: definitions, processes, formulas, dates, causes/effects. Keep answers concise (under 50 words each).`;
+  try{
+    const raw=await callClaude(prompt,null,'fcLoading');
+    const clean=raw.replace(/```json|```/g,'').trim();
+    fcData=JSON.parse(clean).cards||[];
+    fcIndex=0;fcFlipped=false;
+    renderFC();
+    document.getElementById('fcWrap').style.display='block';
+  }catch(e){showToast('Could not create flashcards. Try again.');}
+  document.getElementById('fcBtn').disabled=false;
+}
+function renderFC(){
+  if(!fcData.length) return;
+  const card=document.getElementById('fcCard');
+  card.classList.remove('flipped');
+  fcFlipped=false;
+  document.getElementById('fcFront').textContent=fcData[fcIndex].front;
+  document.getElementById('fcBack').textContent=fcData[fcIndex].back;
+  document.getElementById('fcProgress').textContent=`Card ${fcIndex+1} of ${fcData.length}`;
+}
+function flipCard(){document.getElementById('fcCard').classList.toggle('flipped');fcFlipped=!fcFlipped;}
+function nextCard(){fcIndex=(fcIndex+1)%fcData.length;renderFC();}
+function prevCard(){fcIndex=(fcIndex-1+fcData.length)%fcData.length;renderFC();}
+ 
+// ─── INIT ───
+document.getElementById('doubtQ').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.ctrlKey)solveDoubt();});
+document.getElementById('globalTopic').addEventListener('keydown',e=>{if(e.key==='Enter')setGlobalTopic();});
+</script>
+</body>
+</html>
