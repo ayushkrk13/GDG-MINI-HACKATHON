@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamEdge AI — Last Minute Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="3.css">
+</head>
+<body>
+ 
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="logo">ExamEdge<sup>AI</sup></div>
+  <div class="topbar-nav">
+    <a onclick="scrollToSection('#profile-section')">Study Plan</a>
+    <a onclick="scrollToSection('#doubt')">Doubts</a>
+    <a onclick="scrollToSection('#test')">Quick Test</a>
+    <a onclick="scrollToSection('#important')">Hot Topics</a>
+    <a onclick="scrollToSection('#resources')">Resources</a>
+    <a onclick="scrollToSection('#summary')">Summary</a>
+    <a onclick="scrollToSection('#flashcards')">Flashcards</a>
+  </div>
+  <div class="topbar-actions">
+    <button class="settings-trigger-btn" onclick="openSettings()">⚙️ Settings</button>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">⚡ Exam is tomorrow. You got this.</div>
+  <h1>Your AI-powered<br><span class="hi">last-minute</span> tutor</h1>
+  <p class="hero-sub">Solve doubts, take smart quizzes, find critical topics, and grab revision resources — all in one place.</p>
+</div>
+ 
+<!-- ─── SECTIONS ─── -->
+<div class="sections-wrap">
+
+<!-- 0. PROFILE & ONBOARDING -->
+<div class="section-block" id="profile-section">
+  <!-- ONBOARDING FORM (Hidden when profile exists) -->
+  <div id="onboardingForm" class="section-body open" style="padding: 2rem;">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span style="font-size: 2.5rem;">🎓</span>
+      <h2 style="font-family: var(--heading); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; margin-top: 0.5rem; color: var(--ink);">Set Up Your Study Profile</h2>
+      <p style="font-size: 0.88rem; color: var(--ink3); max-width: 440px; margin: 0.25rem auto 0;">Personalize ExamEdge to your class, board, and study goals for customized roadmaps.</p>
+    </div>
+    <div class="profile-form-grid">
+      <div class="field">
+        <label>Your Full Name</label>
+        <input type="text" id="profName" placeholder="e.g. Rahul Sharma" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;" />
+      </div>
+      <div class="field">
+        <label>School Name</label>
+        <input type="text" id="profSchool" placeholder="e.g. Delhi Public School" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;" />
+      </div>
+      <div class="field">
+        <label>Class / Grade</label>
+        <select id="profClass" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;">
+          <option value="Class 6">Class 6 (Middle School)</option>
+          <option value="Class 7">Class 7 (Middle School)</option>
+          <option value="Class 8">Class 8 (Middle School)</option>
+          <option value="Class 9">Class 9 (High School)</option>
+          <option value="Class 10" selected>Class 10 (Secondary Boards)</option>
+          <option value="Class 11">Class 11 (Senior Secondary)</option>
+          <option value="Class 12">Class 12 (Higher Secondary Boards)</option>
+          <option value="JEE/NEET Prep">JEE / NEET Aspirant</option>
+          <option value="College">College / University</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Medium of Instruction</label>
+        <select id="profMedium" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;">
+          <option value="English" selected>English Medium</option>
+          <option value="Hindi">Hindi Medium (हिंदी)</option>
+          <option value="Regional">Regional Medium (State Language)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Education Board</label>
+        <select id="profBoard" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;">
+          <option value="CBSE" selected>CBSE (Central Board)</option>
+          <option value="ICSE/ISC">ICSE / ISC Board</option>
+          <option value="State Board">State Board (UP, Bihar, Maharashtra, etc.)</option>
+          <option value="Other">Other / International (IB/IGCSE)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Primary Study Target</label>
+        <select id="profTarget" style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; width: 100%;">
+          <option value="Board Exams" selected>Board Exams Preparation</option>
+          <option value="School Finals">School Term/Final Exams</option>
+          <option value="Competitive Exams">Competitive Exams (JEE, NEET, Olympiads)</option>
+          <option value="General Revision">Regular Syllabus Revision</option>
+        </select>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <button class="btn-primary" onclick="saveProfile()" style="width: 100%; max-width: 320px;">Save Profile & Unlock Planner →</button>
+    </div>
+  </div>
+
+  <!-- PERSONALIZED WELCOME BANNER (Shown when profile exists) -->
+  <div id="profileDashboard" class="section-body" style="padding: 1.5rem; display: none;">
+    <div class="profile-dashboard-wrap">
+      <div class="profile-dashboard-left">
+        <div class="flag-icon">🇮🇳</div>
+        <div>
+          <h2 style="font-family: var(--heading); font-weight: 700; font-size: 1.2rem; color: var(--ink); margin-bottom: 2px;">Namaste, <span id="dashName">User</span>!</h2>
+          <p id="dashDetails" style="font-size: 0.82rem; color: var(--ink2); font-weight: 500;"></p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <button class="settings-trigger-btn" onclick="editProfile()">✏️ Edit Profile</button>
+      </div>
+    </div>
+
+    <!-- Personalized Study Planner sub-view -->
+    <hr style="border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;" />
+    <div>
+      <h3 style="font-family: var(--heading); font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px;">📅 Your Customized Study Planner</h3>
+      <div class="planner-config">
+        <div class="field" style="flex:1; min-width: 160px;">
+          <label style="font-size: 0.68rem; font-weight: 700; color: var(--ink3); text-transform: uppercase; margin-bottom: 4px; display: block;">Revision Timeline</label>
+          <select id="planTimeline" style="width: 100%; border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: var(--body); font-size: 0.85rem; outline: none; color: var(--ink);">
+            <option value="24h" selected>⚡ 24-Hour Last-Minute Express Plan</option>
+            <option value="3day">📅 3-Day Focus Revision Plan</option>
+            <option value="7day">🗓 7-Day Complete Syllabus Roadmap</option>
+          </select>
+        </div>
+        <button class="btn-primary" onclick="generateStudyPlan()" id="planBtn" style="align-self: flex-end; padding: 0.65rem 1.2rem;">Generate Study Plan →</button>
+      </div>
+      
+      <div class="loading-row" id="planLoading" style="margin-top:1rem;"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Formulating your study roadmap...</span></div>
+      <div id="plannerOutput" class="prose" style="display:none; margin-top: 1.25rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; font-size: 0.9rem; line-height: 1.75;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOPIC BAR -->
+<div class="topic-bar" style="max-width:700px;margin:2rem auto 3.5rem;">
+  <label>Enter your exam topic or subject</label>
+  <div class="topic-row">
+    <input type="text" id="globalTopic" placeholder="e.g. Photosynthesis, French Revolution, Thermodynamics, Algebra..." />
+    <button class="btn-primary" onclick="setGlobalTopic()">Set Topic →</button>
+  </div>
+  <div class="topic-chips">
+    <span class="chip" onclick="fillTopic('Photosynthesis')">Photosynthesis</span>
+    <span class="chip" onclick="fillTopic('World War II')">World War II</span>
+    <span class="chip" onclick="fillTopic('Quadratic Equations')">Quadratic Equations</span>
+    <span class="chip" onclick="fillTopic('Newton\'s Laws')">Newton's Laws</span>
+    <span class="chip" onclick="fillTopic('Cell Biology')">Cell Biology</span>
+    <span class="chip" onclick="fillTopic('Organic Chemistry')">Organic Chemistry</span>
+    <span class="chip" onclick="fillTopic('Indian History')">Indian History</span>
+    <span class="chip" onclick="fillTopic('Macroeconomics')">Macroeconomics</span>
+  </div>
+</div>
+ 
+<!-- 1. AI DOUBT SOLVER -->
+<div class="section-block" id="doubt">
+  <div class="section-head" onclick="toggleSection('doubt-body','doubt-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fff0f0;">🤔</div>
+      <div>
+        <div class="section-title">AI Doubt Solver</div>
+        <div class="section-sub">Ask anything — get instant, exam-focused explanations</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--red-bg);color:var(--red);border:1px solid #f0c0c0;">Live AI</span>
+      <span class="chevron open" id="doubt-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open prose" id="doubt-body">
+    <p style="font-size:0.83rem;color:var(--ink3);margin-bottom:1rem;">Type your doubt or question below. The AI will explain it clearly and concisely, exam-style.</p>
+    <div class="doubt-input-row">
+      <textarea id="doubtQ" placeholder="e.g. What is the difference between mitosis and meiosis? Why does ice float on water? Explain derivatives simply..."></textarea>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+      <button class="btn-primary" onclick="solveDoubt()" id="doubtBtn">Solve My Doubt →</button>
+      <button class="sum-btn" onclick="setDoubt('Explain this concept step by step')">Step-by-step</button>
+      <button class="sum-btn" onclick="setDoubt('Give me a real-life example')">Real-life example</button>
+      <button class="sum-btn" onclick="setDoubt('What is the exam trick to remember this?')">Exam trick</button>
+    </div>
+    <div class="loading-row" id="doubtLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Thinking...</span></div>
+    <div class="doubt-answer prose" id="doubtAnswer"></div>
+  </div>
+</div>
+ 
+<!-- 2. QUICK TEST -->
+<div class="section-block" id="test">
+  <div class="section-head" onclick="toggleSection('test-body','test-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f0f5fd;">📝</div>
+      <div>
+        <div class="section-title">Quick Test</div>
+        <div class="section-sub">AI-generated MCQ test on your chosen topic</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--blue-bg);color:var(--blue);border:1px solid #b8d0f4;">Adaptive</span>
+      <span class="chevron open" id="test-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="test-body">
+    <div class="test-config">
+      <div class="field">
+        <label>Topic</label>
+        <input type="text" id="testTopic" placeholder="e.g. Algebra" style="border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      </div>
+      <div class="field">
+        <label>Difficulty</label>
+        <select id="testDiff">
+          <option value="easy">Easy — Basics only</option>
+          <option value="medium" selected>Medium — Exam level</option>
+          <option value="hard">Hard — Advanced</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Questions</label>
+        <input type="number" id="testCount" value="5" min="3" max="10" />
+      </div>
+      <button class="btn-primary" onclick="generateTest()" id="testBtn" style="align-self:flex-end;">Generate Test →</button>
+    </div>
+    <div class="loading-row" id="testLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Generating your test...</span></div>
+    <div class="quiz-wrap" id="quizWrap"></div>
+    <div class="test-result" id="testResult">
+      <div class="result-score" id="resultScore">—</div>
+      <div class="result-grade" id="resultGrade"></div>
+      <button class="btn-primary" onclick="resetTest()" style="margin-top:1.25rem;">Try Again</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- 3. AI IMPORTANT TOPICS & QUESTIONS -->
+<div class="section-block" id="important">
+  <div class="section-head" onclick="toggleSection('imp-body','imp-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fef8f0;">🎯</div>
+      <div>
+        <div class="section-title">AI Important Topics by Unit</div>
+        <div class="section-sub">Enter a syllabus unit name to suggest high-probability exam topics & questions</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--amber-bg);color:var(--amber);border:1px solid #f5d8aa;">Smart Ranking</span>
+      <span class="chevron open" id="imp-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="imp-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="impUnit" placeholder="Enter unit name to analyze (e.g. Chemical Reactions, Trigonometry, Nationalism)..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="analyseImportant()" id="impBtn">Analyse →</button>
+    </div>
+    <div class="loading-row" id="impLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Analyzing unit exam patterns...</span></div>
+    <div class="imp-grid" id="impGrid"></div>
+    <div id="impQuestions" class="prose" style="margin-top:1.25rem;font-size:0.9rem;"></div>
+  </div>
+</div>
+ 
+<!-- 4. REVISION RESOURCES (Videos, PPTs, Notes) -->
+<div class="section-block" id="resources">
+  <div class="section-head" onclick="toggleSection('res-body','res-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f7f3fd;">📚</div>
+      <div>
+        <div class="section-title">Revision Resources</div>
+        <div class="section-sub">Summary videos, PPTs, and notes to revise quickly</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--purple-bg);color:var(--purple);border:1px solid #d0b8f4;">Videos · PPTs · Notes</span>
+      <span class="chevron open" id="res-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="res-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="resTopic" placeholder="Search topic for resources..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="findResources()" id="resBtn">Find Resources →</button>
+    </div>
+    <div class="loading-row" id="resLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Finding best resources...</span></div>
+    <div id="resContent" style="display:none;">
+      <div class="res-tabs">
+        <button class="res-tab active" onclick="switchResTab('videos',this)">▶ Summary Videos</button>
+        <button class="res-tab" onclick="switchResTab('ppts',this)">📊 PPT Slides</button>
+        <button class="res-tab" onclick="switchResTab('notes',this)">📄 Quick Notes</button>
+        <button class="res-tab" onclick="switchResTab('links',this)">🔗 Study Links</button>
+      </div>
+      <div class="res-panel active" id="res-videos"></div>
+      <div class="res-panel" id="res-ppts"></div>
+      <div class="res-panel" id="res-notes"></div>
+      <div class="res-panel" id="res-links"></div>
+    </div>
+  </div>
+</div>
+ 
+<!-- 5. SMART SUMMARY -->
+<div class="section-block" id="summary">
+  <div class="section-head" onclick="toggleSection('sum-body','sum-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#f0faf4;">✍️</div>
+      <div>
+        <div class="section-title">Smart Summary Generator</div>
+        <div class="section-sub">Instant revision summaries: brief, detailed, or visual outline</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--green-bg);color:var(--green);border:1px solid #a8dcbc;">Auto-Gen</span>
+      <span class="chevron open" id="sum-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="sum-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="sumTopic" placeholder="Enter topic for summary..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+    </div>
+    <div class="summary-opts">
+      <button class="sum-btn active" data-sumtype="brief" onclick="setSumType(this)">⚡ 60-Second Brief</button>
+      <button class="sum-btn" data-sumtype="detailed" onclick="setSumType(this)">📖 Detailed Summary</button>
+      <button class="sum-btn" data-sumtype="outline" onclick="setSumType(this)">🗂 Chapter Outline</button>
+      <button class="sum-btn" data-sumtype="mindmap" onclick="setSumType(this)">🧠 Mind Map Text</button>
+      <button class="sum-btn" data-sumtype="compare" onclick="setSumType(this)">⚖ Compare & Contrast</button>
+    </div>
+    <button class="btn-primary" onclick="generateSummary()" id="sumBtn" style="margin-bottom:1rem;">Generate Summary →</button>
+    <div class="loading-row" id="sumLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Writing summary...</span></div>
+    <div class="summary-output prose" id="sumOutput"></div>
+  </div>
+</div>
+ 
+<!-- 6. FLASHCARDS -->
+<div class="section-block" id="flashcards">
+  <div class="section-head" onclick="toggleSection('fc-body','fc-chev')">
+    <div class="section-head-left">
+      <div class="section-icon" style="background:#fff0f0;">🃏</div>
+      <div>
+        <div class="section-title">AI Flashcards</div>
+        <div class="section-sub">Flip-card revision — tap to reveal answers</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span class="section-badge" style="background:var(--red-bg);color:var(--red);border:1px solid #f0c0c0;">Interactive</span>
+      <span class="chevron open" id="fc-chev">▼</span>
+    </div>
+  </div>
+  <div class="section-body open" id="fc-body">
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="fcTopic" placeholder="Enter topic for flashcards..." style="flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;font-family:var(--body);font-size:0.88rem;color:var(--ink);background:var(--bg);outline:none;" />
+      <button class="btn-primary" onclick="generateFlashcards()" id="fcBtn">Make Flashcards →</button>
+    </div>
+    <div class="loading-row" id="fcLoading"><div class="ld"></div><div class="ld"></div><div class="ld"></div><span>Creating flashcards...</span></div>
+    <div id="fcWrap" style="display:none;">
+      <div class="fc-wrap">
+        <div class="fc-card" id="fcCard" onclick="flipCard()">
+          <div class="fc-inner">
+            <div class="fc-front">
+              <div class="fc-face-label">Question</div>
+              <div class="fc-text" id="fcFront">—</div>
+            </div>
+            <div class="fc-back">
+              <div class="fc-face-label" style="color:rgba(255,255,255,0.4);">Answer</div>
+              <div class="fc-text" id="fcBack">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="fc-btn" onclick="prevCard()">← Prev</button>
+        <button class="fc-btn" onclick="flipCard()">Flip Card</button>
+        <button class="fc-btn" onclick="nextCard()">Next →</button>
+      </div>
+      <div class="fc-progress" id="fcProgress">Card 1 of 8</div>
+    </div>
+  </div>
+</div>
+ 
+</div><!-- end sections-wrap -->
+ 
+<!-- ADVANCED FOOTER -->
+<footer class="advanced-footer">
+  <div class="footer-grid">
+    <!-- LEFT: CARTOON MASCOT & REGARDS -->
+    <div class="footer-mascot-section">
+      <div class="mascot-wrapper">
+        <div class="mascot">
+          <div class="mascot-cap">🎓</div>
+          <div class="mascot-face">
+            <div class="mascot-eyes">
+              <div class="mascot-eye"></div>
+              <div class="mascot-eye"></div>
+            </div>
+            <div class="mascot-smile"></div>
+          </div>
+        </div>
+        <div class="mascot-bubble">
+          <span class="bubble-text">Good luck for your preparation and exam! You've got this! 🚀</span>
+        </div>
+      </div>
+      <div class="footer-wishes">
+        <h3>ExamEdge<sup>AI</sup></h3>
+        <p>Thank you for using our last-minute revision tool. We are cheering for you! Believe in your hard work, practice consistent revision, and go crush your exams tomorrow! 👍</p>
+      </div>
+    </div>
+    
+    <!-- RIGHT: USER REVIEW FORM -->
+    <div class="footer-review-section">
+      <div class="review-card">
+        <h4>📝 Share Your Review & Feedback</h4>
+        <form id="reviewForm" onsubmit="submitReview(event)">
+          <div class="form-row">
+            <div class="field">
+              <label>Phone Number</label>
+              <input type="tel" id="revPhone" placeholder="e.g. +91 98765 43210" required style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none;" />
+            </div>
+            <div class="field">
+              <label>Email ID</label>
+              <input type="email" id="revEmail" placeholder="e.g. rahul@gmail.com" required style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none;" />
+            </div>
+          </div>
+          <div class="field" style="margin-top: 0.75rem;">
+            <label>Rate Your Experience</label>
+            <div class="star-rating">
+              <span class="star" onclick="setRating(1)">★</span>
+              <span class="star" onclick="setRating(2)">★</span>
+              <span class="star" onclick="setRating(3)">★</span>
+              <span class="star" onclick="setRating(4)">★</span>
+              <span class="star" onclick="setRating(5)">★</span>
+            </div>
+          </div>
+          <div class="field" style="margin-top: 0.75rem;">
+            <label>Review / Feedback</label>
+            <textarea id="revFeedback" placeholder="How did ExamEdge AI help you prepare?" required style="border: 1.5px solid var(--border); background: var(--bg); border-radius: 8px; padding: 0.6rem 0.8rem; font-family: var(--body); font-size: 0.88rem; color: var(--ink); outline: none; resize: none; min-height: 68px;"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="margin-top: 1rem; width: 100%;">Submit Review →</button>
+        </form>
+        <div id="reviewSuccess" class="review-success-state" style="display: none;">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+          <h5>Thank you for your review!</h5>
+          <p>Your feedback is highly valued. Good luck with your preparation!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 ExamEdge AI · Built to Support Students Across India · All rights reserved.
+  </div>
+</footer>
+ 
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settingsModal" onclick="closeSettings(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ AI Provider Settings</div>
+      <button class="modal-close" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="setting-group">
+        <label>AI Provider</label>
+        <select id="providerSelect" onchange="toggleProviderFields()">
+          <option value="mock">🎉 Demo / Mock Mode (No Key Needed)</option>
+          <option value="gemini">♊ Google Gemini API (Recommended)</option>
+          <option value="claude">🔮 Anthropic Claude API</option>
+        </select>
+        <span class="setting-help">Demo Mode runs completely offline with high-quality revision mocks.</span>
+      </div>
+      
+      <div class="setting-group" id="apiKeyGroup" style="display:none;">
+        <label id="apiKeyLabel">API Key</label>
+        <input type="password" id="apiKeyInput" placeholder="Enter API Key..." />
+        <span class="setting-help" id="apiKeyHelp">Stored locally in your browser.</span>
+      </div>
+      
+      <div class="setting-group" id="proxyGroup" style="display:none;">
+        <label>CORS Proxy (Optional)</label>
+        <input type="text" id="proxyInput" placeholder="e.g. https://cors-anywhere.herokuapp.com/" />
+        <span class="setting-help">Usually required for Claude due to browser CORS policies.</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </div>
+</div>
+
+<script src="3.js" defer></script>
+</body>
+</html>
